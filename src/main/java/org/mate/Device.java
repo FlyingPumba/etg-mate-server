@@ -140,7 +140,7 @@ public class Device {
             System.out.println("Running windows get source lines command!");
             cmd = "powershell -command " + "\"python getSourceLines.py " + packageName + "\"";
         } else {
-            cmd = "./getSourceLines.py " + packageName;
+            cmd = "./scripts/getSourceLines.py " + packageName;
         }
         return ADB.runCommand(cmd);
     }
@@ -151,7 +151,7 @@ public class Device {
             System.out.println("Running windows clear app command!");
             cmd = "powershell -command " + "\"python clearApp.py " + deviceID + " " + packageName + "\"";
         } else {
-            cmd = "./clearApp.py " + deviceID + " " + packageName;
+            cmd = "./scripts/clearApp.py " + deviceID + " " + packageName;
         }
         List<String> response = ADB.runCommand(cmd);
         return String.join("\n", response);
@@ -163,7 +163,7 @@ public class Device {
         if (ADB.isWin) {
             cmd = "powershell -command " + "\"python storeCurrentTraceFile.py" + " " + deviceID + " " + packageName + "\"";
         } else {
-            cmd = "./storeCurrentTraceFile.py " + deviceID + " " + packageName;
+            cmd = "./scripts/storeCurrentTraceFile.py " + deviceID + " " + packageName;
         }
         return String.join("\n", ADB.runCommand(cmd));
     }
@@ -175,7 +175,7 @@ public class Device {
             System.out.println("Running windows storing coverage command!");
             cmd = "powershell -command " + "\"python storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome + "\"";
         } else {
-            cmd = "./storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome;
+            cmd = "./scripts/storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome;
         }
         if (entity != null) {
             cmd += " " + entity;
@@ -192,12 +192,11 @@ public class Device {
             cmd = "powershell -command " + "\"python copyCoverageData.py " + packageName + " " + chromosome_source
                     + " " + chromosome_target + " " + entities + "\"";
         } else {
-            cmd = "./copyCoverageData.py " + packageName + " " + chromosome_source + " " + chromosome_target + " " + entities;
+            cmd = "./scripts/copyCoverageData.py " + packageName + " " + chromosome_source + " " + chromosome_target + " " + entities;
         }
         List<String> response = ADB.runCommand(cmd);
         return String.join("\n", response);
     }
-
 
     public String getCoverage(String chromosome) {
         String response="unknown";
@@ -206,7 +205,7 @@ public class Device {
             System.out.println("Running windows get coverage command!");
             cmd = "powershell -command " + "\"python getCoverage.py " + packageName + " " + chromosome + "\"";
         } else {
-            cmd = "./getCoverage.py " + packageName + " " + chromosome;
+            cmd = "./scripts/getCoverage.py " + packageName + " " + chromosome;
         }
         List<String> result = ADB.runCommand(cmd);
         if (result != null && result.size() > 0)
@@ -222,7 +221,7 @@ public class Device {
             System.out.println("Running windows get line coverage command!");
             cmd = "powershell -command " + "\"python getLineCoveredPercentage.py " + packageName + " " + chromosome + "\"";
         } else {
-            cmd = "./getLineCoveredPercentage.py " + packageName + " " + chromosome;
+            cmd = "./scripts/getLineCoveredPercentage.py " + packageName + " " + chromosome;
         }
         try {
             // TODO: refactor and use ProcessRunner.runProces() (no Windows support yet)
@@ -256,7 +255,7 @@ public class Device {
             System.out.println("Running windows get combined coverage command!");
             cmd = "powershell -command " + "\"python getCombinedCoverage.py " + packageName + " " + chromosomes + "\"";
         } else {
-            cmd = "./getCombinedCoverage.py " + packageName + " " + chromosomes;
+            cmd = "./scripts/getCombinedCoverage.py " + packageName + " " + chromosomes;
         }
         List<String> result = ADB.runCommand(cmd);
         if (result != null && result.size() > 0)
