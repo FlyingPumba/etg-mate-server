@@ -1,9 +1,6 @@
 package org.mate;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -263,6 +260,19 @@ public class Device {
         System.out.println("combined coverage: " + response);
 
         return response;
+    }
+
+    public String storeJsonTestCases(String jsonContent) {
+        System.out.println("Storing json test cases");
+        try {
+            PrintWriter out = new PrintWriter(new FileOutputStream("mate-test-cases.json"), true);
+            out.print(jsonContent);
+            out.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("A problem occurred dumping json test cases to file: " + e.toString());
+        }
+
+        return "";
     }
 
     public static void loadActiveDevices(){

@@ -104,6 +104,9 @@ public class Server2 {
         if (cmdStr.startsWith("copyCoverageData"))
             return copyCoverageData(cmdStr);
 
+        if (cmdStr.startsWith("storeJsonTestCases"))
+            return storeJsonTestCases(cmdStr);
+
         if (cmdStr.startsWith("getActivities"))
             return getActivities(cmdStr);
 
@@ -213,6 +216,13 @@ public class Server2 {
         return device.copyCoverageData(chromosome_source, chromosome_target, entities);
     }
 
+    public static String storeJsonTestCases(String cmdStr) {
+        String parts[] = cmdStr.split(":");
+        String deviceID = parts[1];
+        String jsonContent = String.join(":", Arrays.copyOfRange(parts, 2, parts.length));
+        Device device = Device.devices.get(deviceID);
+        return device.storeJsonTestCases(jsonContent);
+    }
 
     public static String getActivities(String cmdStr) {
         String parts[] = cmdStr.split(":");
