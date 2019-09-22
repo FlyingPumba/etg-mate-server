@@ -96,7 +96,7 @@ public class Device {
         * Instead, we need to search for the 'realActivity' record, pick the second one (seems to be the current active Activity)
         * and split on '='.
          */
-        if (getAPIVersion() == 28) {
+        if (getAPIVersion() == 28 || getAPIVersion() == 29) {
             if (ADB.isWin) {
                 cmd = "powershell -command " + "\"$activity = adb -s " + deviceID + " shell dumpsys activity activities "
                        + "| select-string \"realActivity\" ; $focused = $activity[1] ; $final = $focused -split '=' ; echo $final[1]\"";
