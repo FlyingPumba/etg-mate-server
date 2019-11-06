@@ -121,7 +121,7 @@ public class Device {
             System.out.println("Running windows get source lines command!");
             cmd = "powershell -command " + "\"aapt dump xmltree " + packageName + ".apk AndroidManifest.xml | python getActivityNames.py" + "\"";
         } else {
-            cmd = "aapt dump xmltree " + packageName + ".apk AndroidManifest.xml | ./getActivityNames.py";
+            cmd = "aapt dump xmltree " + packageName + ".apk AndroidManifest.xml | ./scripts/getActivityNames.py";
         }
         List<String> response = ADB.runCommand(cmd);
         System.out.println("activities:");
