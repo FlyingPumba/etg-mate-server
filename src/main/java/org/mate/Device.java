@@ -143,6 +143,10 @@ public class Device {
     }
 
     public String clearApp() {
+        if (packageName.isEmpty()) {
+            System.out.println("Skipping clearApp command for empty package");
+        }
+
         String cmd = "";
         if (ADB.isWin) {
             System.out.println("Running windows clear app command!");
