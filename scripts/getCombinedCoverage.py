@@ -13,8 +13,8 @@ from coverageReport import genCoverageReport
 package = sys.argv[1]
 chromosomes = sys.argv[2]
 src_dir = package + ".src"
-report_path = "jacocoTestReport.xml"
 coverage_path = package + ".coverage"
+xml_report_path = coverage_path + "/jacocoTestReport.xml"
 
 replaceEmptyCoverageFiles(package)
 
@@ -28,9 +28,9 @@ else:
         cp = coverage_path + "/" + ch
         listOfFiles += [cp + "/" + f for f in listdir(cp) if isfile(join(cp, f))]
 
-genCoverageReport(listOfFiles, src_dir)
+genCoverageReport(listOfFiles, src_dir, xml_report_path)
 
-tree = ET.parse(report_path)
+tree = ET.parse(xml_report_path)
 instruction_element = tree.getroot().findall("./counter[@type='LINE']")[0]
 missed_instructions = float(instruction_element.get('missed'))
 covered_instructions = float(instruction_element.get('covered'))

@@ -13,12 +13,12 @@ package = sys.argv[1]
 chromosome = sys.argv[2]
 lines = input().strip()
 src_dir = package + ".src"
-report_file = "jacocoTestReport.xml"
 coverage_path = package + ".coverage/" + chromosome
+xml_report_path = coverage_path + "/jacocoTestReport.xml"
 listOfFiles = [coverage_path + "/" + f for f in listdir(coverage_path) if isfile(join(coverage_path, f))]
 
 replaceEmptyCoverageFiles(package)
-genCoverageReport(listOfFiles, src_dir)
+genCoverageReport(listOfFiles, src_dir, xml_report_path)
 
 def line_covered(l):
     return int(l.get("ci")) > 0
