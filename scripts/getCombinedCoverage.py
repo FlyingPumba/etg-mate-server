@@ -22,11 +22,11 @@ listOfFiles = list()
 
 if chromosomes == "all":
     for (dirpath, dirnames, filenames) in os.walk(coverage_path):
-        listOfFiles += [os.path.join(dirpath, file) for file in filenames]
+        listOfFiles += [os.path.join(dirpath, file) for file in filenames if file.startswith("tmp")]
 else:
     for ch in chromosomes.split("+"):
         cp = coverage_path + "/" + ch
-        listOfFiles += [cp + "/" + f for f in listdir(cp) if isfile(join(cp, f))]
+        listOfFiles += [cp + "/" + f for f in listdir(cp) if isfile(join(cp, f)) and f.startswith("tmp")]
 
 genCoverageReport(listOfFiles, src_dir, xml_report_path)
 

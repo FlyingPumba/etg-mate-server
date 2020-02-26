@@ -14,7 +14,7 @@ chromosome = sys.argv[2]
 src_dir = package + ".src"
 coverage_path = package + ".coverage/" + chromosome
 xml_report_path = coverage_path + "/jacocoTestReport.xml"
-listOfFiles = [coverage_path + "/" + f for f in listdir(coverage_path) if isfile(join(coverage_path, f))]
+listOfFiles = [coverage_path + "/" + f for f in listdir(coverage_path) if isfile(join(coverage_path, f)) and f.startswith("tmp")]
 
 replaceEmptyCoverageFiles(package)
 
