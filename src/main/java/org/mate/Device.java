@@ -17,10 +17,12 @@ public class Device {
     private String packageName;
     private boolean busy;
     private int APIVersion;
+    private String emmaCoverageReceiver;
 
     public Device(String deviceID){
         this.deviceID = deviceID;
         this.packageName = "";
+        this.emmaCoverageReceiver = "";
         this.busy = false;
         APIVersion = this.getAPIVersionFromADB();
     }
@@ -39,6 +41,9 @@ public class Device {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+        if (!packageName.isEmpty()) {
+            this.emmaCoverageReceiver = getEmmaCoverageReceiverFromADB();
+        }
     }
 
     public void setBusy(boolean busy){
@@ -62,6 +67,17 @@ public class Device {
             return Integer.valueOf(result.get(0));
         }
         return 23;
+    }
+
+    private String getEmmaCoverageReceiverFromADB(){
+        String cmd = "adb -s " + deviceID + " shell dumpsys package | grep -i " + packageName + " | grep Emma | cut -d\" \" -f10";
+        System.out.println(cmd);
+        List<String> result = ADB.runCommand(cmd);
+        if (result != null && result.size() > 0) {
+            System.out.println("Emma coverage receiver class consulta: " + result.get(0));
+            return result.get(0);
+        }
+        return "";
     }
 
     public String getCurrentActivity(){
@@ -176,13 +192,15 @@ public class Device {
             System.out.println("Running windows storing coverage command!");
             cmd = "powershell -command " + "\"python storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome + "\"";
         } else {
-            cmd = "./scripts/storeCoverageData_mod.py " + deviceID + " " + packageName + " " + chromosome;
+            cmd = "./scripts/storeCoverageData_mod.py " + deviceID + " " + packageName + " " + chromosome + " " + emmaCoverageReceiver;
         }
         if (entity != null) {
             cmd += " " + entity;
         }
         List<String> response = ADB.runCommand(cmd);
-        return String.join("\n", response);
+        String joinedResponse = String.join("\n", response);
+        System.out.println(joinedResponse);
+        return joinedResponse;
     }
 
     public String copyCoverageData(String chromosome_source, String chromosome_target, String entities) {
