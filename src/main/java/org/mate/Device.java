@@ -176,7 +176,7 @@ public class Device {
             System.out.println("Running windows storing coverage command!");
             cmd = "powershell -command " + "\"python storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome + "\"";
         } else {
-            cmd = "./scripts/storeCoverageData.py " + deviceID + " " + packageName + " " + chromosome;
+            cmd = "./scripts/storeCoverageData_mod.py " + deviceID + " " + packageName + " " + chromosome;
         }
         if (entity != null) {
             cmd += " " + entity;

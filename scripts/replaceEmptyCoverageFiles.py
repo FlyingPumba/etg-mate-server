@@ -5,5 +5,6 @@ def replaceEmptyCoverageFiles(pkg_name):
     result = subprocess.run(["bash", "-c", cmd], stdout=subprocess.PIPE).stdout.decode()
     if result.strip() != "":
         for f in result.strip().split("\n"):
+            print("Reemplazo archivo de coverage " + f + " porque esta vacio")
             cmd = "cp " + pkg_name + ".coverage.empty " + f
             subprocess.run(["bash", "-c", cmd], stdout=subprocess.PIPE)
