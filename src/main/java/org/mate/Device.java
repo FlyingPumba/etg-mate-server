@@ -80,6 +80,18 @@ public class Device {
         return "";
     }
 
+    public String getCurrentPackageName() {
+        String response="unknown";
+
+        String cmd = "adb -s " + deviceID + "shell dumpsys activity recents | grep 'Recent #0' | cut -d= -f2 | sed 's| .*||' | cut -d '/' -f1";
+        List<String> result = ADB.runCommand(cmd);
+        if (result != null && result.size() > 0)
+            response = result.get(0);
+        System.out.println("activity: " + response);
+
+        return response;
+    }
+
     public String getCurrentActivity(){
 
         String response="unknown";

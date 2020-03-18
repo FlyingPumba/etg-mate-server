@@ -92,6 +92,9 @@ public class Server2 {
         if (cmdStr.startsWith("getActivity"))
             return getActivity(cmdStr);
 
+        if (cmdStr.startsWith("getPackageName"))
+            return getPackageName(cmdStr);
+
         if (cmdStr.startsWith("getSourceLines"))
             return getSourceLines(cmdStr);
 
@@ -185,6 +188,13 @@ public class Server2 {
         String deviceID = parts[1];
         Device device = Device.devices.get(deviceID);
         return device.getCurrentActivity();
+    }
+
+    public static String getPackageName(String cmdStr) {
+        String parts[] = cmdStr.split(":");
+        String deviceID = parts[1];
+        Device device = Device.devices.get(deviceID);
+        return device.getCurrentPackageName();
     }
 
     public static String storeCurrentTraceFile(String cmdStr) {
