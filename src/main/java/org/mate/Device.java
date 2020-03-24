@@ -183,7 +183,26 @@ public class Device {
             cmd = "./scripts/clearApp.py " + deviceID + " " + packageName;
         }
         List<String> response = ADB.runCommand(cmd);
-        return String.join("\n", response);
+        String clearAppOutput = String.join("\n", response);
+
+        // Grant all permissions after clearing package data
+        grantAllPermissions();
+
+        return clearAppOutput;
+    }
+
+    private void grantAllPermissions() {
+        String permissionsCmd = "adb -s " + deviceID + " shell pm list permissions -d -g | grep permission: | cut -d':' -f2";
+        List<String> permissions = ADB.runCommand(permissionsCmd);
+        for (String permission: permissions) {
+            grantPermission(permission);
+        }
+    }
+
+    private void grantPermission(String permission) {
+        String grantCmd = String.format("adb -s %s shell pm grant %s %s >/dev/null 2>&1",
+                deviceID, packageName, permission);
+        ADB.runCommand(grantCmd);
     }
 
     public String storeCurrentTraceFile() {
