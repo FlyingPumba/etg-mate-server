@@ -31,7 +31,7 @@ public class ImageHandler {
             System.out.println(cmdStr);
             ADB.runCommand(cmdStr);
 
-            String checkBlankCmd = String.format("identify -format \"%[fx:(mean==1)?1:0]\" %s", imgPath);
+            String checkBlankCmd = String.format("identify -format \"%%[fx:(mean==1)?1:0]\" %s", imgPath);
             List<String> resultLines = ADB.runCommand(checkBlankCmd);
 
             if (!resultLines.isEmpty() && "0".equals(resultLines.get(0).trim())) {
