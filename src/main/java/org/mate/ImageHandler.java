@@ -19,13 +19,25 @@ public class ImageHandler {
     public static String takeScreenshot(String cmdStr) {
         String[] parts = cmdStr.split(":");
         String emulator = parts[1];
-
-        int index = parts[2].lastIndexOf("_");
-        //String packageName = parts[1].substring(0,index-1);
-        cmdStr = "adb -s " + emulator+" shell screencap -p /sdcard/" + parts[2] + " && adb -s "+ parts[1] + " pull /sdcard/" + parts[2];
         String imgPath = parts[2];
-        System.out.println(cmdStr);
-        ADB.runCommand(cmdStr);
+
+        // repeat the following process untill the screenshot is properly taken
+        // from time to time screencap will return a blank image (i.e., all white), and we don't want that.
+        // Note: requires imagemagick package installed
+        while (true) {
+            cmdStr = "adb -s " + emulator + " shell screencap -p /sdcard/" + imgPath +
+                    " && adb -s " + emulator + " pull /sdcard/" + imgPath;
+
+            System.out.println(cmdStr);
+            ADB.runCommand(cmdStr);
+
+            String checkBlankCmd = String.format("identify -format \"%[fx:(mean==1)?1:0]\" %s", imgPath);
+            List<String> resultLines = ADB.runCommand(checkBlankCmd);
+
+            if (!resultLines.isEmpty() && "0".equals(resultLines.get(0).trim())) {
+                break;
+            }
+        }
 
         return imgPath;
     }
